@@ -19,7 +19,8 @@ session = GoogleSpreadsheet.login(google_user, google_pw)
 
 ws = session.spreadsheet_by_key("p3LA_Q08eM-VAAyq03ZSjYQ").worksheets[0]
 
-base =  Twitter::Base.new(twitter_user, twitter_pw)
+httpauth = Twitter::HTTPAuth.new(twitter_user, twitter_pw)
+base = Twitter::Base.new(httpauth)
 
 (1..1000).each do |row|
         url = ws[row,2]
@@ -30,7 +31,7 @@ base =  Twitter::Base.new(twitter_user, twitter_pw)
         puts "Attmepting to follow #{matched_user}"
 
         begin
-                base.create_friendship(matched_user)
+                base.friendship_create(matched_user)
                 puts "success"
         rescue
                 puts "******* Failed  #{$!.message}"
